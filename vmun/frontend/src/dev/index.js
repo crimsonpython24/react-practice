@@ -6,18 +6,13 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import DevIndex from "./dev/index";
-
+import Home from "../index";
 
 function Todo() {
   return <h2>Todo</h2>;
 }
 
-function Home() {
-  return <h2>Home</h2>;
-}
-
-export default function main() {
+export default function DevIndex() {
   return (
     <>
       <h1>Test Project</h1>
@@ -25,19 +20,14 @@ export default function main() {
         <div>
           <nav>
             <ul>
-              <li><Link to="/">Home</Link>
-              </li>
-              <li><Link to="/todos">Developing area</Link></li>
+              <li><Link to="/todos">Todos</Link></li>
             </ul>
           </nav>
         </div>
         <Switch>
-          <Route path="/todos" component={DevIndex}/>
-          <Route path="/" component={Home}/>
+          <Route path="/todos" component={Todo}/>
         </Switch>
       </Router>
     </>
   )
 }
-
-ReactDOM.render(main(), document.getElementById("root"));
