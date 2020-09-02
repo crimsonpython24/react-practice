@@ -232,3 +232,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# save space
+package-lock.json
