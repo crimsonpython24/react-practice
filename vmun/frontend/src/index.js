@@ -10,7 +10,7 @@ import Articles from "../src/main/articles";
 import Login from "../src/auth/login-dom";
 import Signup from "../src/auth/signup-dom";
 import Navbar from "../src/common/navbar";
-import Todo from "./todo/index";
+import ToDo from "./todo/todo-dom";
 
 
 function main() {
@@ -24,7 +24,7 @@ function main() {
           <Route exact path="/accounts/signup"><Signup/></Route>
           <Route exact path="/feedback"><Feedback/></Route>
           <Route exact path="/development"><Development/></Route>
-          <Route exact path="/development/todo"><Todo/></Route>
+          <Route exact path="/development/todo"><ToDo/></Route>
           <Route exact path="/articles"><Articles/></Route>
         </Switch>
       </Router>
