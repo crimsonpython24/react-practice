@@ -35,10 +35,8 @@ class TodoView(APIView):
 
     def put(self, request, id, format=None):
         todo = self.get_object(id)
-        print(request.data, id)
         serializer = TodoSerializer(todo, data=request.data)
         if serializer.is_valid():
-            print('\n\n\nvalid\n\n\n')
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
