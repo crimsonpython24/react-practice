@@ -7,4 +7,5 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('logintest', views.logintest, name='logintest'),
     path('profiletest', views.profile, name='profiletest'),
+    path('api/user/', views.UserBaseAPIView.as_view(), name="users"),
 ]
