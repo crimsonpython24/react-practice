@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
 import "./index.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useRouteMatch, Link } from "react-router-dom";
 import Home from "../src/main/home";
 import Feedback from "../src/main/feedback";
 import Development from "../src/main/development";
@@ -20,12 +20,11 @@ function main() {
         <Navbar/>
         <Switch>
           <Route exact path="/"><Home/></Route>
-          <Route exact path="/accounts/login"><Login/></Route>
-          <Route exact path="/accounts/signup"><Signup/></Route>
-          <Route exact path="/feedback"><Feedback/></Route>
-          <Route exact path="/development"><Development/></Route>
-          <Route exact path="/development/todo"><ToDo/></Route>
-          <Route exact path="/articles"><Articles/></Route>
+          <Route path="/accounts/login"><Login/></Route>
+          <Route path="/accounts/signup"><Signup/></Route>
+          <Route path="/feedback"><Feedback/></Route>
+          <Route path="/development"><Development/></Route>
+          <Route path="/articles"><Articles/></Route>
         </Switch>
       </Router>
     </>

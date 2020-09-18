@@ -21,7 +21,4 @@ fetch("http://127.0.0.1:8000/development/todos/api/todo/?format=json")
     }
   )
 
-
-
-  
 // fetch("http://127.0.0.1:8000/development/todos/api/todo/?format=json")

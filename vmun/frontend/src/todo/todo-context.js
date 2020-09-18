@@ -1,6 +1,7 @@
 import React, { useReducer, createContext } from 'react';
 
-export const TodoContext = React.createContext([{}, function(){}]);
+// export const TodoContext = React.createContext([{}, function(){}]);
+export const TodoContext = createContext([[]]);
 
 const initialState = [];
 
