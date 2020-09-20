@@ -25,7 +25,8 @@ const DropdownMenu = () => {
   );
 };
 
-function Navbar() {
+function Navbar(authenticated) {
+  console.log(authenticated);
   return (
     <PageHeader
       title={<Link to="/" style={{ color: "#262626" }}>vMun</Link>}

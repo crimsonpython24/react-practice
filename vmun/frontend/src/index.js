@@ -11,18 +11,19 @@ import Login from "../src/auth/login-dom";
 import Signup from "../src/auth/signup-dom";
 import Navbar from "../src/common/navbar";
 import UserContextProvider from './user-context';
+import { UserContext } from './user-context';
+import { ConfigContext } from "antd/lib/config-provider";
 
 
 fetch("http://127.0.0.1:8000/accounts/profiletest")
   .then(res => res.json())
   .then(
     (user) => {
-      console.log(user);
-      const App = () => {
+      console.log(user.authenticated);
+      const App = (user) => {
         return (
           <UserContextProvider initState={user}>
             {main()}
-            {/* <p>{user}</p> */}
           </UserContextProvider>
         )
       };
@@ -34,7 +35,9 @@ function main() {
   return (
     <>
       <Router>
-        <Navbar/>
+        <UserContext.Consumer>
+          {value => <p>Test auth: {value.authenticated}</p>}
+        </UserContext.Consumer>
         <Switch>
           <Route exact path="/"><Home/></Route>
           <Route path="/accounts/login"><Login/></Route>

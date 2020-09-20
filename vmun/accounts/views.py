@@ -34,7 +34,7 @@ def logintest(request):
 def profile(request):
     user = request.user
     if user is not None:
-        return JsonResponse({'username': user.username})
+        return JsonResponse({'authenticated': True, 'id': user.id})
     else:
         return JsonResponse({'username': None})
 

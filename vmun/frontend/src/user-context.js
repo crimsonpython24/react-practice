@@ -1,6 +1,6 @@
 import React, { useReducer, createContext } from 'react';
 
-export const UserContext = createContext([{}]);
+export const UserContext = React.createContext({});
 
 const initialState = {};
 
