@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from accounts.models import User
+
 
 class TodoSubitem(models.Model):
     stat_ch = [
@@ -20,6 +22,7 @@ class TodoSubitem(models.Model):
     status = models.CharField(_('status'), choices=stat_ch, max_length=20)
     intensity = models.CharField(_('intensity'), choices=int_ch, max_length=20)
     notes = models.TextField(_('Notes'), blank=True, max_length=120)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         c_title = self.title if len(self.title) < 50 else self.title[:47]
@@ -44,6 +47,7 @@ class Todo(models.Model):
     status = models.CharField(_('status'), choices=stat_ch, max_length=20)
     intensity = models.CharField(_('intensity'), choices=int_ch, max_length=20)
     notes = models.TextField(_('Notes'), blank=True, max_length=120)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         c_title = self.title if len(self.title) < 50 else self.title[:47]

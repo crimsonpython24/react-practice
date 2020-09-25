@@ -9,6 +9,18 @@ const todoReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return (action.name.length)
+        // instead array, return 
+        // ? {
+        //   ...state,
+        //   todos: [
+        //     ...todos, {            possibly concat
+        //       id: action.id,
+        //       name: action.name,
+        //       complete: action.complete
+        //     }
+        //   ]
+        // }
+        // todos append by 1 object, other fields unchanged (above)
         ? [...state, {
           id: action.id,
           name: action.name,
@@ -16,6 +28,7 @@ const todoReducer = (state, action) => {
         }]
         : state;
     case 'UPDATE_COMPLETE':
+      // state.todos.map (after new structure)
       return state.map((item) =>
         item.id === action.id
           ? { ...item, complete: action.complete }

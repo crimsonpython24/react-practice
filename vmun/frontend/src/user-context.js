@@ -1,8 +1,8 @@
-import React, { useReducer, createContext } from 'react';
+import React, { useReducer } from 'react';
 
-export const UserContext = React.createContext({});
+export const UserContext = React.createContext([[]]);
 
-const initialState = {};
+const initialState = [];
 
 const userReducer = (state, action) => {
   switch (action.type) {

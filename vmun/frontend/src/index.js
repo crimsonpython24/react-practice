@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
 import "./index.css";
@@ -10,45 +10,53 @@ import Articles from "../src/main/articles";
 import Login from "../src/auth/login-dom";
 import Signup from "../src/auth/signup-dom";
 import Navbar from "../src/common/navbar";
-import UserContextProvider from './user-context';
-import { UserContext } from './user-context';
+import VmunContextProvider from './vmun/context';
+import Vmun from './vmun/dom';
 import { ConfigContext } from "antd/lib/config-provider";
 
 
-fetch("http://127.0.0.1:8000/accounts/profiletest")
+fetch("http://127.0.0.1:8000/accounts/teststate")
   .then(res => res.json())
   .then(
-    (user) => {
-      console.log(user.authenticated);
-      const App = (user) => {
+    (data) => {
+      const initialState = {
+        user: data.user,
+        todos: JSON.parse(data.todos),
+      };
+      console.log(initialState);
+      const App = () => {
         return (
-          <UserContextProvider initState={user}>
-            {main()}
-          </UserContextProvider>
+          <VmunContextProvider initState={initialState}>
+            <Vmun/>
+          </VmunContextProvider>
         )
       };
       ReactDOM.render(<App />, document.getElementById('root'));
     }
   )
+  
 
-function main() {
-  return (
-    <>
-      <Router>
-        <UserContext.Consumer>
-          {value => <p>Test auth: {value.authenticated}</p>}
-        </UserContext.Consumer>
-        <Switch>
-          <Route exact path="/"><Home/></Route>
-          <Route path="/accounts/login"><Login/></Route>
-          <Route path="/accounts/signup"><Signup/></Route>
-          <Route path="/feedback"><Feedback/></Route>
-          <Route path="/development"><Development/></Route>
-          <Route path="/articles"><Articles/></Route>
-        </Switch>
-      </Router>
-    </>
-  )
-}
 
-ReactDOM.render(main(), document.getElementById("root"));
+// function Main() {
+//   const [user, dispatch] = useContext(UserContext);
+//   return (
+//     <>
+//       <Router>
+//         {Object.entries(user).map(([key, value]) => (
+//           <ul>
+//             <li>hey{key}: {value}</li>
+//           </ul>
+//         ))}
+//         <Switch>
+//           <Route exact path="/"><Home/></Route>
+//           <Route path="/accounts/login"><Login/></Route>
+//           <Route path="/accounts/signup"><Signup/></Route>
+//           <Route path="/feedback"><Feedback/></Route>
+//           <Route path="/development"><Development/></Route>
+//           <Route path="/articles"><Articles/></Route>
+//         </Switch>
+//       </Router>
+//     </>
+//   )
+// }
+

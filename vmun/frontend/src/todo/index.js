@@ -20,5 +20,3 @@ fetch("http://127.0.0.1:8000/development/todos/api/todo/?format=json")
       render(<App />, document.getElementById('root'));
     }
   )
-
-// fetch("http://127.0.0.1:8000/development/todos/api/todo/?format=json")
