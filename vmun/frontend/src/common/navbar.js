@@ -3,6 +3,8 @@ import "antd/dist/antd.css";
 import { PageHeader, Dropdown, Button, Tag, Menu } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 
 const menu = (
@@ -34,12 +36,7 @@ function Navbar(authenticated) {
       subTitle="MUN conference on the web"
       tags={<Tag color="green">Running</Tag>}
       extra={[
-        <Link to="/accounts/login" key="2">
-          <Button>Log In</Button>
-        </Link>,
-        <Link to="/accounts/signup" key="1">
-          <Button type="primary">Sign Up</Button>
-        </Link>,
+        <Avatar icon={<UserOutlined />} />,
         <DropdownMenu key="more" />
       ]}
     ></PageHeader>

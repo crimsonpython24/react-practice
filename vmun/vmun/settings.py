@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
     'todos.apps.TodosConfig',
+    'mun.apps.MunConfig',
     'rest_framework',
     'corsheaders',
 ]

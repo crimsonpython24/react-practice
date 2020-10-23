@@ -62,7 +62,7 @@ def me(request):
 
 
 def teststate(request):
-    user = os.environ.get('TESTUSER_ID')
+    user = os.environ.get('TESTUSER_ID')  # undefined
     if user is not None:
         todo_q = Todo.objects.all()
 
@@ -72,7 +72,7 @@ def teststate(request):
         
         return JsonResponse({'user': {'username': username, 'id': int(user)}, 'todos': todo2})
     else:
-        return JsonResponse({'user': {'username': 'guest', 'id': -1}, 'todos': '[]'})
+        return JsonResponse({'user': {'username': 'guest_8000', 'id': -1}, 'todos': '[]'})
 
 
 def init_state(request):

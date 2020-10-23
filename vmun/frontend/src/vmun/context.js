@@ -4,7 +4,7 @@ import React, { useReducer, createContext } from 'react';
 export const VmunContext = createContext([[]]);
 
 const initialState = {
-  user: {'username': 'guest', 'id': null},
+  user: window.VMUNUSER,
   todos: [],
   // add future components here
 };
