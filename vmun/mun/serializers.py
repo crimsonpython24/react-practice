@@ -2,19 +2,19 @@ from rest_framework import serializers
 from .models import Conference, Committee, Delegate
 
 
-class ConferenceSerializer(serializers.ModelSerializer ):
+class ConferenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conference
-        fields = ['id', 'title', 'source', 'status', 'intensity', 'notes', 'due_date', 'completed', 'subitems', 'user']
+        fields = ['id', 'slug', 'title', 'date_start', 'date_end']
 
 
 class CommitteeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Committee
-        fields = ['id', 'title', 'source', 'status', 'intensity', 'notes', 'user']
+        fields = ['id', 'slug', 'conference', 'chair', 'title']
 
 
-class DelegateSeralizer(serializers.ModelSerializer):
+class DelegateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Delegate
-        
+        fields = ['id', 'slug', 'committee', 'user', 'nation']
