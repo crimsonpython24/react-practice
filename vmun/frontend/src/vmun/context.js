@@ -4,8 +4,6 @@ import React, { useReducer, createContext } from 'react';
 export const VmunContext = createContext([[]]);
 
 const initialState = {
-  user: window.VMUNUSER,
-  // add future components here
 };
 
 const vmunReducer = (state, action) => {
