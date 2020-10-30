@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
-    'todos.apps.TodosConfig',
     'mun.apps.MunConfig',
     'rest_framework',
     'corsheaders',

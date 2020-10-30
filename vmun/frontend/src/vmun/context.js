@@ -5,7 +5,6 @@ export const VmunContext = createContext([[]]);
 
 const initialState = {
   user: window.VMUNUSER,
-  todos: [],
   // add future components here
 };
 

@@ -21,7 +21,6 @@ fetch("http://127.0.0.1:8000/accounts/teststate")
     (data) => {
       const initialState = {
         user: data.user,
-        todos: JSON.parse(data.todos),
       };
       console.log(initialState);
       const App = () => {

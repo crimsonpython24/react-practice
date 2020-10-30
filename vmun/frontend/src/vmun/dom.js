@@ -30,15 +30,6 @@ const Vmun = () => {
       </Router>
 
       <h2>Account: {state.user.id || -1} | {state.user.username}</h2>
-      {state.todos.map((todo, index) => (
-        <div className={`column-item ${todo.completed ? 'completed' : null}`} key={index}>
-          <div className="flex-container">
-            <div className="todo-name">
-              {index+1}: {todo.fields.title}
-            </div>
-          </div>
-        </div>
-      ))}
     </>
   );
 };

@@ -2,10 +2,6 @@ import sys
 import os
 import json
 
-# sys.path.insert(1, '/todos')
-
-# import models.Todo
-
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
@@ -22,7 +18,6 @@ from . import forms
 from . import models
 from . import serializers
 
-from todos.models import Todo
 from accounts.models import User
 
 
@@ -64,15 +59,10 @@ def me(request):
 def teststate(request):
     user = os.environ.get('TESTUSER_ID')  # undefined
     if user is not None:
-        todo_q = Todo.objects.all()
-
-        todo2 = dj_serializers.serialize('json', todo_q)
-
         username = getattr(User.objects.get(id=user), 'slug')
-        
-        return JsonResponse({'user': {'username': username, 'id': int(user)}, 'todos': todo2})
+        return JsonResponse({'user': {'username': username, 'id': int(user)}})
     else:
-        return JsonResponse({'user': {'username': 'guest_8000', 'id': -1}, 'todos': '[]'})
+        return JsonResponse({'user': {'username': 'guest_8000', 'id': -1}})
 
 
 def init_state(request):
@@ -85,12 +75,9 @@ def init_state(request):
             user = {'username': username, 'id': int(userid)}
         
     if user:
-        todo_q = Todo.objects.all()
-        todo2 = dj_serializers.serialize('json', todo_q)
-
-        return JsonResponse({'user': user, 'todos': todo2})
+        return JsonResponse({'user': user})
     else:
-        return JsonResponse({'user': {'username': 'guest', 'id': -1}, 'todos': '[]'})
+        return JsonResponse({'user': {'username': 'guest', 'id': -1}})
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
