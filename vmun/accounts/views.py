@@ -23,10 +23,15 @@ from accounts.models import User
 
 def logintest(request):
     if request.method == 'POST':
-        form = forms.LoginForm(request.POST)
+        print(request.POST)
+
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
+
         user = authenticate(request, username=username, password=password)
+        
+        print('\nUSER', user, username, password)
+
         if user is not None:
             login(request, user)
             return HttpResponseRedirect('/accounts/profiletest')
@@ -83,19 +88,20 @@ def init_state(request):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class UserLoginView(View):
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+        if request.method == 'POST':
+            username = request.POST.get('username', None)
+            password = request.POST.get('password', None)
 
             user = authenticate(request, username=username, password=password)
+            print('\nUSER', user, username, password)
+            
             if user is not None:
                 login(request, user)
                 return JsonResponse({'success': True, 'userid': user.id})
             else:
                 return JsonResponse({'success': False, 'errors': 'user not found'})
 
-        return JsonResponse({'success': False, 'errors': form.errors})
+        return JsonResponse({'success': False, 'errors': ''})
 
 
 class UserBaseAPIView(generics.ListCreateAPIView):

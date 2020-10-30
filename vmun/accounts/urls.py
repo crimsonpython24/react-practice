@@ -11,4 +11,5 @@ urlpatterns = [
     path('teststate', views.teststate, name='teststate'),
     path('initstate', views.init_state, name='initstate'),
     path('api/user/', views.UserBaseAPIView.as_view(), name="users"),
+    path('login_post', views.logintest, name='login-post')
 ]
