@@ -20,18 +20,13 @@ function getCookie(name) {
 }
 
 function fetchData(url, met, data=null) {
-  // var formData = new FormData();
-  // formData.append('username', data.username);
-  // formData.append('password', data.password);
   return fetch(url, {
     method: met,
-    credentials: 'include',
-    mode: 'cors',
+    credentials: 'same-origin',
     headers: {
-      "X-CSRFToken": getCookie("csrftoken"),
       "Accept": "application/json",
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Requested-With': 'XMLHttpRequest',
+      "X-CSRFToken": getCookie("csrftoken")
     },
     body: JSON.stringify(data)
   }).then((response) => {
@@ -53,14 +48,15 @@ function Login() {
   const handleSubmit = values => {post_login(values);}
   
   function post_login(data) {
-    console.log('data', data);
-    fetchData("http://127.0.0.1:8000/accounts/login_post", 'POST', {'username': data.username, 'password': data.password})
+    fetchData("http://127.0.0.1:8000/accounts/ajaxlogin", 'POST', {'username': data.username, 'password': data.password})
     .then((json) => {
       // dispatch({
       //   type: 'ADD_TODO', name: json.name, complete: json.complete, id: json.id
       // });
       // setValue('name', '', { shouldValidate: false });
       console.log(json);
+      if (json.login) {
+      }
     })
     // .catch((json) => setNoNameError(JSON.stringify(json)));
   }

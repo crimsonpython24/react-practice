@@ -1,67 +1,32 @@
-import sys
 import os
 import json
 
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.utils.decorators import method_decorator
 from django.http import JsonResponse
-from django.views import View
-from django.core import serializers as dj_serializers
-from django.core.serializers.json import DjangoJSONEncoder
 
 from rest_framework import generics
-
-from . import forms
-from . import models
-from . import serializers
 
 from accounts.models import User
 
 
-def logintest(request):
-    if request.method == 'POST':
-        print(request.POST)
-
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-
+def ajax_login(request):
+    if request.is_ajax():
+        post_data = json.load(request)
+        username = post_data['username']
+        password = post_data['password']
         user = authenticate(request, username=username, password=password)
-        
-        print('\nUSER', user, username, password)
 
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/accounts/profiletest')
-        else:
-            # Return an 'invalid login' error message.
-            return HttpResponse('you failed')
-    else:
-        form = forms.LoginForm()
 
-    return render(request, 'test.html', {'form': form})
+        data = {
+            'login': user is not None,
+            'username': user.username
+        }
+        return JsonResponse(data)
 
 
-def profile(request):
-    user = request.user
-    if user is not None:
-        return JsonResponse({'authenticated': True, 'id': user.id})
-    else:
-        return JsonResponse({'username': None})
-
-
-def me(request):
-    print(os.environ.get('TESTUSER_ID'))
-    user = os.environ.get('TESTUSER_ID')
-    if user is not None:
-        return JsonResponse({'authenticated': True, 'id': user})
-    else:
-        return JsonResponse({'authenticated': False, 'id': None})
-
-
-def teststate(request):
+def test_state(request):
     user = os.environ.get('TESTUSER_ID')  # undefined
     if user is not None:
         username = getattr(User.objects.get(id=user), 'slug')
@@ -83,30 +48,3 @@ def init_state(request):
         return JsonResponse({'user': user})
     else:
         return JsonResponse({'user': {'username': 'guest', 'id': -1}})
-
-
-@method_decorator(ensure_csrf_cookie, name='dispatch')
-class UserLoginView(View):
-    def post(self, request, *args, **kwargs):
-        if request.method == 'POST':
-            username = request.POST.get('username', None)
-            password = request.POST.get('password', None)
-
-            user = authenticate(request, username=username, password=password)
-            print('\nUSER', user, username, password)
-            
-            if user is not None:
-                login(request, user)
-                return JsonResponse({'success': True, 'userid': user.id})
-            else:
-                return JsonResponse({'success': False, 'errors': 'user not found'})
-
-        return JsonResponse({'success': False, 'errors': ''})
-
-
-class UserBaseAPIView(generics.ListCreateAPIView):
-    queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializer
-
-    def get_objects(self):
-        return models.User.objects.all()
