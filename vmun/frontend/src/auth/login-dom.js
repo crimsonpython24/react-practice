@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "antd/dist/antd.css";
 
+import { useHistory } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from 'antd';
 import jQuery from "jquery";
+
+import { VmunContext } from "../vmun/context.js";
 
 function getCookie(name) {
   let cookieValue = null;
@@ -46,17 +49,18 @@ function Login() {
   const layout = {labelCol: { span: 8 }, wrapperCol: { span: 16 },};
   const tailLayout = {wrapperCol: { offset: 8, span: 16 },};
   const handleSubmit = values => {post_login(values);}
-  
+  const [vmun, dispatch] = useContext(VmunContext);
+  // console.log(useContext(VmunContext));
+  const history = useHistory();
+
   function post_login(data) {
     fetchData("http://127.0.0.1:8000/accounts/ajaxlogin", 'POST', {'username': data.username, 'password': data.password})
     .then((json) => {
-      // dispatch({
-      //   type: 'ADD_TODO', name: json.name, complete: json.complete, id: json.id
-      // });
-      // setValue('name', '', { shouldValidate: false });
+      dispatch({
+        type: 'LOGGED_IN', username: json.username, authenticated: true
+      });
       console.log(json);
-      if (json.login) {
-      }
+      history.push("/");
     })
     // .catch((json) => setNoNameError(JSON.stringify(json)));
   }

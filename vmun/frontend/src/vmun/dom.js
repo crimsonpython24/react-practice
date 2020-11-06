@@ -16,6 +16,7 @@ import { VmunContext } from './context';
 
 const Vmun = () => {
   const [state, dispatch] = useContext(VmunContext);
+  console.log('xxxxxxstate: ', state);
   return (
     <>
       <Router>
@@ -23,7 +24,7 @@ const Vmun = () => {
         <Switch>
           <Route exact path="/">
             <Home/>
-            <h2>Account: {state.user.id || -1} | {state.user.username}</h2>
+            <h2>Account: {state.user.username}</h2>
           </Route>
           <Route path="/accounts/login"><Login/></Route>
           <Route path="/accounts/signup"><Signup/></Route>

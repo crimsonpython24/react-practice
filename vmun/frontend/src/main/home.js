@@ -6,7 +6,7 @@ import { VmunContext } from '../vmun/context';
 
 function Home() {
   const [state, dispatch] = useContext(VmunContext);
-  if (state.user.id == -1) {
+  if (!state.user.authenticated) {
     return <Redirect to={'/welcome'} />
   }
   return <h1>Home</h1>

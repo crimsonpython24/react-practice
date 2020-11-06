@@ -45,6 +45,6 @@ def init_state(request):
             user = {'username': username, 'id': int(userid)}
         
     if user:
-        return JsonResponse({'user': user})
+        return JsonResponse({'user': user, 'conferences': []})
     else:
-        return JsonResponse({'user': {'username': 'guest', 'id': -1}})
+        return JsonResponse({'user': {'username': 'guest'}, 'conferences': []})

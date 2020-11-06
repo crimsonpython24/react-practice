@@ -15,12 +15,13 @@ import Vmun from './vmun/dom';
 import { ConfigContext } from "antd/lib/config-provider";
 
 
-fetch("http://127.0.0.1:8000/accounts/teststate")
+fetch("http://127.0.0.1:8000/accounts/initstate")
   .then(res => res.json())
   .then(
     (data) => {
       const initialState = {
         user: data.user,
+        conferences: data.conferences
       };
       console.log(initialState);
       const App = () => {
