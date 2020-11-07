@@ -3,10 +3,11 @@ import json
 
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
-from rest_framework import generics
 
 from accounts.models import User
+from .serializers import UserSerializer
 
 
 def ajax_login(request):
@@ -41,8 +42,8 @@ def init_state(request):
         userid = request.user.id
 
         if userid is not None:
-            username = getattr(User.objects.get(id=userid), 'slug')
-            user = {'id': int(userid), 'username': username, 'authenticated': True}
+            user = UserSerializer(instance=User.objects.get(id=userid)).data
+            user['authenticated'] = True
     
     if user:
         return JsonResponse({'user': user, 'conferences': []})

@@ -10,7 +10,6 @@ const initialState = {
 };
 
 const vmunReducer = (state, action) => {
-  console.log('state', state, action)
   switch (action.type) {
     case 'LOGGED_IN':
       let {user, ...etc} = state;

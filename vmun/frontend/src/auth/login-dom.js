@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "antd/dist/antd.css";
 
 import { useHistory } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 import jQuery from "jquery";
 
 import { VmunContext } from "../vmun/context.js";
@@ -49,8 +49,7 @@ function Login() {
   const layout = {labelCol: { span: 8 }, wrapperCol: { span: 16 },};
   const tailLayout = {wrapperCol: { offset: 8, span: 16 },};
   const handleSubmit = values => {post_login(values);}
-  const [vmun, dispatch] = useContext(VmunContext);
-  // console.log(useContext(VmunContext));
+  const [state, dispatch] = useContext(VmunContext);
   const history = useHistory();
 
   function post_login(data) {
@@ -59,7 +58,6 @@ function Login() {
       dispatch({
         type: 'LOGGED_IN', username: json.username, authenticated: true
       });
-      console.log(json);
       history.push("/");
     })
     // .catch((json) => setNoNameError(JSON.stringify(json)));

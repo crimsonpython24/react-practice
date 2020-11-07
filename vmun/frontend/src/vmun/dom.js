@@ -14,7 +14,6 @@ import { VmunContext } from './context';
 
 const Vmun = () => {
   const [state, dispatch] = useContext(VmunContext);
-  console.log('domstate: ', state);
   return (
     <>
       <Router>

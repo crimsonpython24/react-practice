@@ -15,7 +15,6 @@ fetch("http://127.0.0.1:8000/accounts/initstate")
         conferences: data.conferences,
         authenticated: data.authenticated
       };
-      console.log(initialState);
       const App = () => {
         return (
           <VmunContextProvider initState={initialState}>

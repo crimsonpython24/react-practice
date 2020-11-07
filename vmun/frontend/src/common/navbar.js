@@ -27,7 +27,6 @@ const DropdownMenu = () => {
 };
 
 function Navbar(authenticated) {
-  console.log(authenticated);
   return (
     <PageHeader
       title={<Link to="/" style={{ color: "#262626" }}>vMun</Link>}
@@ -35,7 +34,7 @@ function Navbar(authenticated) {
       subTitle="MUN conference on the web"
       tags={<Tag color="green">Running</Tag>}
       extra={[
-        <Avatar icon={<UserOutlined />} />,
+        <Avatar icon={<UserOutlined />} key={1} />,
         <DropdownMenu key="more" />
       ]}
     ></PageHeader>
