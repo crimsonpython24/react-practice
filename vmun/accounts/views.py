@@ -42,8 +42,8 @@ def init_state(request):
 
         if userid is not None:
             username = getattr(User.objects.get(id=userid), 'slug')
-            user = {'username': username, 'id': int(userid)}
-        
+            user = {'id': int(userid), 'username': username, 'authenticated': True}
+    
     if user:
         return JsonResponse({'user': user, 'conferences': []})
     else:

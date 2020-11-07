@@ -6,7 +6,10 @@ from .views import index
 urlpatterns = [
     # path('', TemplateView.as_view(template_name="build/index.html"), name='index'),
     path('', index, name='index'),
-    path('welcome', index, name='index')
+    path('welcome', index, name='index'),
+    path('feedback', index, name='index'),
+    path('development', index, name='index'),
+    path('articles', index, name='index'),
 ]
 
 # if path is not part of the "ajax url", return index e.g. accounts/

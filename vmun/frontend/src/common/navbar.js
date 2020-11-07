@@ -11,7 +11,6 @@ const menu = (
   <Menu>
     <Menu.Item><Link to="/feedback">Feedback</Link></Menu.Item>
     <Menu.Item><Link to="/development">Development</Link></Menu.Item>
-    <Menu.Item><Link to="/articles">Articles</Link></Menu.Item>
   </Menu>
 );
 
