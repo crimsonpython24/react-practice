@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
     'mun.apps.MunConfig',
+    'todos.apps.TodosConfig',
     'rest_framework',
     'corsheaders',
+    'phonenumber_field',
 ]
 
 # disable rest framework in production

@@ -4,6 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.text import slugify
 
+from phonenumber_field.modelfields import PhoneNumberField
+
+from .model_choices import website_choices, gender_choices, nickname_choices
+
 
 class Place(models.Model):
     country = models.CharField(_('city'), max_length=100)
@@ -16,14 +20,6 @@ class Place(models.Model):
 
 
 class Link(models.Model):
-    website_choices = [
-        ('facebook', 'Facebook'),
-        ('twitter', 'Twitter'),
-        ('github', 'Github'),
-        ('linkedin', 'LinkedIn'),
-        ('twitch', 'Twitch'),
-        ('others', 'Others'),
-    ]
     name = models.CharField(_('name'), max_length=10, choices=website_choices)
     url = models.URLField(_('url'))
     publicity = models.BooleanField(_('publicity'), default=False)
@@ -34,10 +30,11 @@ class Link(models.Model):
 
 class Education(models.Model):
     name = models.CharField(_('school_name'), max_length=150)
-    major = models.CharField(_('major'), max_length=150)
+    degree = models.CharField(_('degree'), max_length=150)
     start = models.IntegerField(_('start year'))
-    end = models.IntegerField(_('end year'))
+    end = models.IntegerField(_('end year'), blank=True)
     description = models.TextField(_('description'), max_length=500, blank=True)
+    publicity = models.BooleanField(_('publicity'), default=False)
 
     def __str__(self):
         return (self.name + ': ' + self.major)[:50]
@@ -47,20 +44,17 @@ class Work(models.Model):
     organization = models.CharField(_('organization'), max_length=150)
     title = models.CharField(_('title'), max_length=150)
     start = models.IntegerField(_('start year'))
-    end = models.IntegerField(_('end year'))
+    end = models.IntegerField(_('end year'), blank=True)
     description = models.TextField(_('description'), max_length=500, blank=True)
+    publicity = models.BooleanField(_('publicity'), default=False)
 
     def __str__(self):
         return (self.organization + ': ' + self.title)[:50]
 
 
+# The account model is modeled after Google's user model
+# Visit https://www.accounts.google.com for original implementation
 class User(AbstractUser):
-    gender_choices = [
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('others', 'Non-binary'),
-        ('none', 'Prefer not to say'),
-    ]
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         _('username'),
@@ -75,12 +69,24 @@ class User(AbstractUser):
     slug = models.SlugField(unique=True)
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    email = models.EmailField(_('email address'), unique=True)
+    nickname = models.CharField(_('nickname'), max_length=50, blank=True)
+    nickname_display = models.CharField(_('nickname_display'), max_length=1000, choices=nickname_choices, blank=True)
+    # nickname_vis = models.BooleanField(_('nickname visibility'), default=False, blank=True)
     avatar = models.ImageField(_('avatar'), blank=True, null=True)
-    birthday = models.DateField(_('birthday'), blank=True, null=True)
     gender = models.CharField(_('gender'), max_length=10, choices=gender_choices, blank=True, null=True)
+    # gender_vis = models.BooleanField(_('gender visibility'), default=False, blank=True)
+    birthday = models.DateField(_('birthday'), blank=True, null=True)
+    # birthday_vis = models.BooleanField(_('birthday visibility'), default=False, blank=True)
+
+    # TODO also add visibility to below fields, create new vis class for all fields that require one
+    # Remember to remove excessive spaces when done ;)
+    # https://docs.djangoproject.com/en/3.1/howto/custom-model-fields/#writing-a-field-subclass
+    email = models.EmailField(_('email address'), unique=True)
+    phone = PhoneNumberField(_('phone number'), blank=True)
+
     places = models.ManyToManyField(Place, blank=True)
     links = models.ManyToManyField(Link, blank=True)
+    # also add privacy option to intro
     introduction = models.TextField(_('introduction'), max_length=500, blank=True, null=True)
     education = models.ManyToManyField(Education, blank=True)
     work = models.ManyToManyField(Work, blank=True)
