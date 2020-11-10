@@ -5,14 +5,15 @@ import { EllipsisOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { useMediaQuery } from 'react-responsive'
 
 import { VmunContext } from '../vmun/context.js';
+import ProfileCard from './profilecard.js'
 
 
 const menu = (
   <Menu>
     <Menu.Item><Link to="/feedback">Feedback</Link></Menu.Item>
-    <Menu.Item><Link to="/development">Development</Link></Menu.Item>
   </Menu>
 );
 
@@ -28,26 +29,54 @@ const DropdownMenu = () => {
   );
 };
 
+const profcard = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+        1st menu item
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+        2nd menu item
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+        3rd menu item
+      </a>
+    </Menu.Item>
+  </Menu>
+);
+
 function Navbar() {
   const [state, dispatch] = useContext(VmunContext);
+  const shrinkNavbar = useMediaQuery({ query: '(max-width: 533px)' })
+  const shrinkTag = useMediaQuery({ query: '(max-width: 374px)' })
 
-  function extras(authenticated) {
-    console.log("auth", authenticated);
+  function extras(authenticated, shrink) {
+    if (shrink) return null;
     if (authenticated) {
       return (
         <>
-          <Avatar icon={<UserOutlined />} key={1} />
+          <Dropdown overlay={<ProfileCard/>} placement="bottomLeft" trigger={['click']}>
+            <Avatar icon={<UserOutlined />} key={1} />
+          </Dropdown>
           <DropdownMenu key="more" />
         </>
       )
     } else {
       return (
         <>
-          <Button type="primary">Primary Button</Button>
-          <DropdownMenu key="more" />
+          <Link to="/accounts/signup" key="signup"><Button>Sign up</Button></Link>
+          <Link to="/accounts/login" key="login"><Button type="primary">Log in</Button></Link>
         </>
       )
     }
+  }
+
+  function addTag(shrink) {
+    return !shrink && <Tag color="green">Running</Tag>
   }
 
   return (
@@ -55,8 +84,8 @@ function Navbar() {
       title={<Link to="/" style={{ color: "#262626" }}>vMun</Link>}
       className="site-page-header"
       subTitle="MUN conference on the web"
-      tags={<Tag color="green">Running</Tag>}
-      extra={[ extras(state.user.authenticated) ]}
+      tags={ addTag(shrinkTag) }
+      extra={ extras(state.user.authenticated, shrinkNavbar) }
     ></PageHeader>
   )
 }
