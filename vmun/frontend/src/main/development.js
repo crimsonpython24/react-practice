@@ -2,8 +2,9 @@ import React from "react";
 import { Switch, Route, useRouteMatch, Link } from "react-router-dom";
 import "antd/dist/antd.css";
 
-import Articles from "../main/development/articles.js";
-import Todo from "../main/development/todos.js"
+import Chat from "../main/development/chat.js";
+import Todo from "../main/development/todo.js"
+import Blank from "../main/development/blank.js"
 
 
 function Development() {
@@ -18,15 +19,21 @@ function Development() {
               <Link to={`${match.url}/todos`}>Todos</Link>
             </li>
             <li>
-              <Link to={`${match.url}/articles`}>Articles</Link>
+              <Link to={`${match.url}/chats`}>Chats</Link>
+            </li>
+            <li>
+              <Link to={`${match.url}/blank`}>Nothing</Link>
             </li>
           </ul>
         </Route>
         <Route path={`${match.path}/todos`}>
           <Todo/>
         </Route>
-        <Route path={`${match.path}/articles`}>
-          <Articles/>
+        <Route path={`${match.path}/chats`}>
+          <Chat/>
+        </Route>
+        <Route path={`${match.path}/blank`}>
+          <Blank/>
         </Route>
       </Switch>
     </>

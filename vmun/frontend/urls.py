@@ -8,9 +8,10 @@ urlpatterns = [
     path('', index, name='index'),
     path('welcome', index, name='index'),
     path('feedback', index, name='index'),
-    path('development', index, name='index'),
-    path('articles', index, name='index'),
-]
 
-# if path is not part of the "ajax url", return index e.g. accounts/
-# check if urlpatterns, accounts should be searched first
+    # All the development links will be moved after backends are complete
+    path('development', index, name='index'),
+    path('development/chats', index, name='index'),
+    path('development/todos', index, name='index'),
+    path('development/blank', index, name='index'),
+]

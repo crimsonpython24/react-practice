@@ -12,8 +12,7 @@ fetch("http://127.0.0.1:8000/accounts/initstate")
     (data) => {
       const initialState = {
         user: data.user,
-        conferences: data.conferences,
-        authenticated: data.authenticated
+        conferences: data.conferences
       };
       const App = () => {
         return (

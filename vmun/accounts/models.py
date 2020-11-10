@@ -71,25 +71,22 @@ class User(AbstractUser):
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     nickname = models.CharField(_('nickname'), max_length=50, blank=True)
     nickname_display = models.CharField(_('nickname_display'), max_length=1000, choices=nickname_choices, blank=True)
-    # nickname_vis = models.BooleanField(_('nickname visibility'), default=False, blank=True)
     avatar = models.ImageField(_('avatar'), blank=True, null=True)
     gender = models.CharField(_('gender'), max_length=10, choices=gender_choices, blank=True, null=True)
-    # gender_vis = models.BooleanField(_('gender visibility'), default=False, blank=True)
     birthday = models.DateField(_('birthday'), blank=True, null=True)
-    # birthday_vis = models.BooleanField(_('birthday visibility'), default=False, blank=True)
-
-    # TODO also add visibility to below fields, create new vis class for all fields that require one
-    # Remember to remove excessive spaces when done ;)
-    # https://docs.djangoproject.com/en/3.1/howto/custom-model-fields/#writing-a-field-subclass
     email = models.EmailField(_('email address'), unique=True)
     phone = PhoneNumberField(_('phone number'), blank=True)
-
     places = models.ManyToManyField(Place, blank=True)
     links = models.ManyToManyField(Link, blank=True)
-    # also add privacy option to intro
     introduction = models.TextField(_('introduction'), max_length=500, blank=True, null=True)
     education = models.ManyToManyField(Education, blank=True)
     work = models.ManyToManyField(Work, blank=True)
+    nickname_vis = models.BooleanField(_('nickname visibility'), default=False, blank=True)
+    gender_vis = models.BooleanField(_('gender visibility'), default=False, blank=True)
+    birthday_vis = models.BooleanField(_('birthday visibility'), default=False, blank=True)
+    email_vis = models.BooleanField(_('email visibility'), default=False, blank=True)
+    phone_vis = models.BooleanField(_('phone visibility'), default=False, blank=True)
+    intro_vis = models.BooleanField(_('introduction visibility'), default=False, blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.username, allow_unicode=True)
