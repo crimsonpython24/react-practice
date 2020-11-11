@@ -2,15 +2,60 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Link } from "react-router-dom";
 
-// import test modules below
+import { useHistory } from "react-router-dom";
+import jQuery from "jquery";
 import { Card, Tooltip, Avatar } from 'antd';
 import { LogoutOutlined, ExperimentOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = jQuery.trim(cookies[i]);
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function fetchData(url, met, data=null) {
+  return fetch(url, {
+    method: met,
+    credentials: 'same-origin',
+    headers: {
+      "Accept": "application/json",
+      'X-Requested-With': 'XMLHttpRequest',
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify(data)
+  }).then((response) => {
+    if (response.status === 400) {
+      return response.json()
+      .then((json) => {
+        return Promise.reject(json);
+      })
+    } else {
+      return response.json();
+    }
+  });
+}
 
 function ProfileCard() {
+  const history = useHistory();
 
+  function post_logout() {
+    fetchData("http://127.0.0.1:8000/accounts/ajaxlogout", 'POST', {})
+    .then((json) => {
+      history.push("/welcome");
+    })
+  }
+  
   function cardTitle(text) {
     return (
       <p style={{ height: "24.8px", marginBottom: "0", overflow: "hidden", fontSize: "16px", textAlign: "center",
@@ -28,6 +73,8 @@ function ProfileCard() {
     )
   }
 
+  
+
   return (
     <Card
       style={{ width: 300 }}
@@ -39,7 +86,7 @@ function ProfileCard() {
       actions={[
         <Tooltip placement="bottom" title="Setting"><Link to=""><SettingOutlined key="settings" /></Link></Tooltip>,
         <Tooltip placement="bottom" title="Development"><Link to="/development"><ExperimentOutlined key="experiment" /></Link></Tooltip>,
-        <Tooltip placement="bottom" title="Log out"><a href="/accounts/logout"><LogoutOutlined key="logout" /></a></Tooltip>,
+        <Tooltip placement="bottom" title="Log out"><LogoutOutlined key="logout" onClick={post_logout()} /></Tooltip>,
       ]}
       bodyStyle={{ paddingTop: "15px", paddingLeft: "15px", paddingRight: "15px", paddingBottom: "7px" }}
     >

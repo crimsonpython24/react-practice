@@ -1,7 +1,7 @@
 import os
 import json
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 
@@ -25,6 +25,12 @@ def ajax_login(request):
             'username': user.username
         }
         return JsonResponse(data)
+
+
+def ajax_logout(request):
+    if request.is_ajax():
+        logout(request)
+        return JsonResponse({'logout': True})
 
 
 def test_state(request):
