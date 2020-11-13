@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "antd/dist/antd.css";
 import { Link } from "react-router-dom";
 
@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import jQuery from "jquery";
 import { Card, Tooltip, Avatar } from 'antd';
 import { LogoutOutlined, ExperimentOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+
+import { VmunContext } from '../vmun/context.js';
 
 const { Meta } = Card;
 
@@ -47,11 +49,15 @@ function fetchData(url, met, data=null) {
 }
 
 function ProfileCard() {
+  const [state, dispatch] = useContext(VmunContext);
   const history = useHistory();
 
   function post_logout() {
     fetchData("http://127.0.0.1:8000/accounts/ajaxlogout", 'POST', {})
     .then((json) => {
+      dispatch({
+        type: 'LOGGED_OUT'
+      });
       history.push("/welcome");
     })
   }
@@ -86,7 +92,7 @@ function ProfileCard() {
       actions={[
         <Tooltip placement="bottom" title="Setting"><Link to=""><SettingOutlined key="settings" /></Link></Tooltip>,
         <Tooltip placement="bottom" title="Development"><Link to="/development"><ExperimentOutlined key="experiment" /></Link></Tooltip>,
-        <Tooltip placement="bottom" title="Log out"><LogoutOutlined key="logout" onClick={post_logout()} /></Tooltip>,
+        <Tooltip placement="bottom" title="Log out"><LogoutOutlined key="logout" onClick={post_logout} /></Tooltip>,
       ]}
       bodyStyle={{ paddingTop: "15px", paddingLeft: "15px", paddingRight: "15px", paddingBottom: "7px" }}
     >

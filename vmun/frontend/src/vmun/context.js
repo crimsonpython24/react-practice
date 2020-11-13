@@ -11,7 +11,7 @@ const initialState = {
 
 const vmunReducer = (state, action) => {
   switch (action.type) {
-    case 'LOGGED_IN':
+    case 'LOGGED_IN': {
       let {user, ...etc} = state;
       return {
         ...etc,
@@ -21,6 +21,18 @@ const vmunReducer = (state, action) => {
           authenticated: action.authenticated
         }
       }
+    }
+    case 'LOGGED_OUT': {
+      let {user, ...etc} = state;
+      return {
+        ...etc,
+        user: {
+          ...user,
+          username: "",
+          authenticated: false
+        }
+      }
+    }
     default:
       return state;
   }
