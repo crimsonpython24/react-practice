@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -7,5 +8,5 @@ urlpatterns = [
     path('api/cmtes/', views.CommitteeListView.as_view(), name="committees"),
     path('api/cmte/<slug:slug>/', views.CommitteeAPIView.as_view(), name="committee-detail"),
     path('api/dels/', views.DelegateListView.as_view(), name="delegates"),
-    path('api/del/<slug:slug>/', views.DelegateAPIView.as_view(), name="delegate-detail"),
+    path('api/del/<slug:slug>/', views.DelegateAPIView.as_view(), name="delegate-detail")
 ]

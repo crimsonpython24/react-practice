@@ -8,6 +8,9 @@ import Welcome from "../../src/main/welcome";
 import Login from "../../src/auth/login-dom";
 import Signup from "../../src/auth/signup-dom";
 
+// TODO fix import into another separate file
+import Conference from "../main/home.js"
+
 import Navbar from "../../src/common/navbar";
 import { VmunContext } from './context';
 
@@ -19,15 +22,17 @@ const Vmun = () => {
       <Router>
         <Navbar/>
         <Switch>
-          <Route exact path="/">
-            <Home/>
-            <h2>Account: {state.user.username}</h2>
-          </Route>
+          <Route exact path="/"><Home/></Route>
           <Route path="/welcome"><Welcome/></Route>
           <Route path="/accounts/login"><Login/></Route>
           <Route path="/accounts/signup"><Signup/></Route>
           <Route path="/feedback"><Feedback/></Route>
           <Route path="/development"><Development/></Route>
+          
+          <Route path={`/conference/:confId/`}>
+            <Conference></Conference>
+          </Route>
+
         </Switch>
       </Router>
     </>

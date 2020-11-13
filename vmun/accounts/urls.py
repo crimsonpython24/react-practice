@@ -13,5 +13,5 @@ urlpatterns = [
     path('initstate', views.init_state, name='initstate'),
 
     path('login', f_views.index, name='index'),
-    path('signup', f_views.index, name='index')
+    path('signup', f_views.index, name='index'),
 ]

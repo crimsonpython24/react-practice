@@ -14,4 +14,7 @@ urlpatterns = [
     path('development/chats', index, name='index'),
     path('development/todos', index, name='index'),
     path('development/blank', index, name='index'),
+
+    
+    path('conference/<slug:slug>/', index, name='index'),
 ]

@@ -79,6 +79,8 @@ function Navbar() {
     return !shrink && <Tag color="green">Running</Tag>
   }
 
+  // add switch for the index
+
   return (
     <PageHeader
       title={<Link to="/" style={{ color: "#262626" }}>vMun</Link>}
