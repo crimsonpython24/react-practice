@@ -6,7 +6,7 @@ import VmunContextProvider from './vmun/context';
 import Vmun from './vmun/dom';
 
 
-let development = true;        // use true while testing in 3000
+let development = false;        // use true while testing in 3000
 let url = !development ? "initstate" : "teststate";
 
 fetch(`http://127.0.0.1:8000/accounts/${url}`)

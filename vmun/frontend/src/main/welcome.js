@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import "antd/dist/antd.css";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch } from "react-router-dom";
+
+import { VmunContext } from '../vmun/context';
 
 import Login from "../auth/login-dom";
 
 function Welcome() {
+  const [state, dispatch] = useContext(VmunContext);
+  if (state.user.authenticated) {
+    return <Redirect to={'/'} />
+  }
+
   return (
     <>
       <Link to="/accounts/login" style={{ paddingLeft: "20px" }}>Log in</Link>

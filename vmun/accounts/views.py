@@ -57,6 +57,9 @@ def init_state(request):
             # TODO remove password, sensitive data, things the user won't want to see e.g. perms
             user = UserSerializer(instance=User.objects.get(id=userid)).data
             user['authenticated'] = True
+            remove = ('password', 'is_superuser', 'is_staff', 'is_active', 'groups', 'user_permissions')
+            for entry in remove:
+                user.pop(entry, None)
     
     # TODO also include user conferences as described in teststate
     if user:

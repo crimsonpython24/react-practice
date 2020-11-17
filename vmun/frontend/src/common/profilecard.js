@@ -51,6 +51,7 @@ function fetchData(url, met, data=null) {
 function ProfileCard() {
   const [state, dispatch] = useContext(VmunContext);
   const history = useHistory();
+  console.log(state.user.email)
 
   function post_logout() {
     fetchData("http://127.0.0.1:8000/accounts/ajaxlogout", 'POST', {})
@@ -79,8 +80,6 @@ function ProfileCard() {
     )
   }
 
-  
-
   return (
     <Card
       style={{ width: 300 }}
@@ -97,8 +96,8 @@ function ProfileCard() {
       bodyStyle={{ paddingTop: "15px", paddingLeft: "15px", paddingRight: "15px", paddingBottom: "7px" }}
     >
       <Meta
-        title={cardTitle("testuser13")}
-        description={cardDesc("testuser13@localhost.com")}
+        title={cardTitle(state.user.username)}
+        description={cardDesc(state.user.email)}
       />
     </Card>
   )

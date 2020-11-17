@@ -8,7 +8,6 @@ import { VmunContext } from '../vmun/context';
 
 function Home() {
   const [state, dispatch] = useContext(VmunContext);
-  let { path, url } = useRouteMatch();
 
   if (!state.user.authenticated) {
     return <Redirect to={'/welcome'} />
