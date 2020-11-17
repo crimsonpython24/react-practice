@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
+
 import "antd/dist/antd.css";
-import { PageHeader, Dropdown, Button, Tag, Menu } from "antd";
-import { EllipsisOutlined } from "@ant-design/icons";
+import { PageHeader, Dropdown, Button, Tag, Menu, Avatar } from "antd";
+import { EllipsisOutlined, UserOutlined } from "@ant-design/icons";
+
 import { Link } from "react-router-dom";
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive'
 
 import { VmunContext } from '../vmun/context.js';
@@ -16,6 +16,7 @@ const menu = (
     <Menu.Item><Link to="/feedback">Feedback</Link></Menu.Item>
   </Menu>
 );
+
 
 const DropdownMenu = () => {
   return (
@@ -29,25 +30,6 @@ const DropdownMenu = () => {
   );
 };
 
-const profcard = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-        1st menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
-        2nd menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-      </a>
-    </Menu.Item>
-  </Menu>
-);
 
 function Navbar() {
   const [state, dispatch] = useContext(VmunContext);

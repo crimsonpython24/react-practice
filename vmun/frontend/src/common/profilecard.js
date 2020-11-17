@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
-import "antd/dist/antd.css";
-import { Link } from "react-router-dom";
 
-import { useHistory } from "react-router-dom";
-import jQuery from "jquery";
+import "antd/dist/antd.css";
 import { Card, Tooltip, Avatar } from 'antd';
 import { LogoutOutlined, ExperimentOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import jQuery from "jquery";
+
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { VmunContext } from '../vmun/context.js';
 
 const { Meta } = Card;
+
 
 function getCookie(name) {
   let cookieValue = null;
@@ -25,6 +27,7 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+
 
 function fetchData(url, met, data=null) {
   return fetch(url, {
@@ -47,6 +50,7 @@ function fetchData(url, met, data=null) {
     }
   });
 }
+
 
 function ProfileCard() {
   const [state, dispatch] = useContext(VmunContext);

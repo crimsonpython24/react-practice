@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import "antd/dist/antd.css";
-import { useForm } from "react-hook-form";
 
-import { useHistory } from "react-router-dom";
+import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox, Row, Col, Typography } from 'antd';
 import jQuery from "jquery";
+
 import { useMediaQuery } from 'react-responsive'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { VmunContext } from "../vmun/context.js";
 
@@ -27,6 +27,7 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+
 
 function fetchData(url, met, data=null) {
   return fetch(url, {

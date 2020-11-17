@@ -2,12 +2,14 @@ import React, { useReducer } from 'react';
 
 export const VmunContext = React.createContext([{}]);
 
+
 const initialState = {
   user: {
     username: "test",
     authenticated: false
   }
 };
+
 
 const vmunReducer = (state, action) => {
   switch (action.type) {
@@ -37,6 +39,7 @@ const vmunReducer = (state, action) => {
       return state;
   }
 };
+
 
 const VmunContextProvider = props => {
   const initState = props.initState || initialState;
