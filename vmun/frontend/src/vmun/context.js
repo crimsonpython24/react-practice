@@ -5,22 +5,24 @@ export const VmunContext = React.createContext([{}]);
 
 const initialState = {
   user: {
-    username: "test",
-    authenticated: false
+    username: "",
+    authenticated: false,
+    email: "",
   }
 };
 
 
 const vmunReducer = (state, action) => {
+  console.log('context.js', action);
   switch (action.type) {
     case 'LOGGED_IN': {
       let {user, ...etc} = state;
+      let {userdata} = action;
       return {
         ...etc,
         user: {
           ...user,
-          username: action.username,
-          authenticated: action.authenticated
+          ...userdata,
         }
       }
     }
@@ -31,7 +33,8 @@ const vmunReducer = (state, action) => {
         user: {
           ...user,
           username: "",
-          authenticated: false
+          authenticated: false,
+          email: "",
         }
       }
     }

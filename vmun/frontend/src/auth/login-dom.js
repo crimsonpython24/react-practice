@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox, Row, Col, Typography } from 'antd';
@@ -53,7 +53,8 @@ function fetchData(url, met, data=null) {
 
 
 function Login() {
-  const handleSubmit = values => {post_login(values);}
+  const onSubmit = values => {post_login(values);}
+  // const onSubmit = values => {console.log('on submit', values)}
   const [state, dispatch] = useContext(VmunContext);
   const history = useHistory();
   const shrinkTailLayout = useMediaQuery({ query: '(max-width:575px)' })
@@ -61,25 +62,56 @@ function Login() {
   const tailLayout = {wrapperCol: { offset: 5, span: 19 }};
   const tailLayoutSm = {wrapperCol: { span: 24 }};
 
+  const { register, trigger, errors, setError, handleSubmit, setValue } = useForm();
+
+  const handleUsernameChange = (e) => {
+    setValue("username", e.target.value);
+    trigger('username');
+  }
+
+  const handlePasswordChange = (e) => {
+    setValue("password", e.target.value);
+    trigger('password');
+  }
+
+  // add regex validation later
+  useEffect(() => {
+    register("username", {required: true}); 
+    register("password", {required: true}); 
+  }, [register])
+
   function post_login(data) {
     fetchData("http://127.0.0.1:8000/accounts/ajaxlogin", 'POST', {'username': data.username, 'password': data.password})
-    .then((json) => {
-      dispatch({
-        type: 'LOGGED_IN', username: json.username, authenticated: true
-      });
-      history.push("/");
+    .then((userdata) => {
+      if (userdata.errors) {
+        Object.keys(userdata.errors).forEach(key => {
+          setError(key, {
+            type: "manual",
+            message: userdata.errors[key],
+          });
+        })
+      } else {
+        dispatch({
+          type: 'LOGGED_IN', userdata,
+        });
+        history.push("/");
+      }
     })
     // .catch((json) => setNoNameError(JSON.stringify(json)));
   }
 
   return (
     <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "500px", padding: "30px" }}>
-      <Form {...layout} name="basic" initialValues={{ remember: true }} onFinish={handleSubmit} requiredMark={false}>
-        <Form.Item label="Username" name="username">
-          <Input />
+      <Form {...layout} name="basic" initialValues={{ remember: true }} onFinish={handleSubmit(onSubmit)} requiredMark={false}>
+        <Form.Item label="Username">
+          {/* make this thing look better pls SERIOUSLY */}
+          <Input name="username" onChange={handleUsernameChange} />
+          {/* probably create differnt cases for front and back end validation */}
+          {errors.username && <p>a {errors.username.message} a</p>}
         </Form.Item>
-        <Form.Item label="Password" name="password">
-          <Input.Password />
+        <Form.Item label="Password">
+          <Input.Password  name="password" onChange={handlePasswordChange} />
+          {errors.password && <p>a {errors.password.message} a</p>}
         </Form.Item>
         { !shrinkTailLayout &&
           <>

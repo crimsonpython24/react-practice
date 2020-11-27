@@ -14,19 +14,27 @@ from mun.serializers import ConferenceSerializer
 
 def ajax_login(request):
     if request.is_ajax():
-        post_data = json.load(request)
-        username = post_data['username']
-        password = post_data['password']
-        user = authenticate(request, username=username, password=password)
+        try:
+            post_data = json.load(request)
+            username = post_data['username']
+            password = post_data['password']
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
+            if user is not None:
+                login(request, user)
 
-        data = {
-            'login': user is not None,
-            'username': user.username
-        }
-        return JsonResponse(data)
+            # pick appropriate data here (for user)
+            userdata = {
+                'authenticated': user is not None,
+                'username': user.username,
+                'email': user.email,
+            }
+            return JsonResponse(userdata)
+        # be more specific on exception
+        except:
+            # also work on the error messages
+            return JsonResponse({'authenticated': False, 'errors': {'username': 'Invalid credentials provided'}})
+
 
 
 def ajax_logout(request):
