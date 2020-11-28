@@ -1,16 +1,15 @@
 import React, { useContext, useEffect } from "react";
 
 import "antd/dist/antd.css";
-import { Form, Input, Button, Checkbox, Row, Col, Typography } from 'antd';
+import { Form, Input, Button, Checkbox } from 'antd';
 import jQuery from "jquery";
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import { useMediaQuery } from 'react-responsive'
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { VmunContext } from "../vmun/context.js";
-
-const { Text } = Typography;
+import './login-dom.css';
 
 
 function getCookie(name) {
@@ -54,22 +53,20 @@ function fetchData(url, met, data=null) {
 
 function Login() {
   const onSubmit = values => {post_login(values);}
-  // const onSubmit = values => {console.log('on submit', values)}
   const [state, dispatch] = useContext(VmunContext);
   const history = useHistory();
-  const shrinkTailLayout = useMediaQuery({ query: '(max-width:575px)' })
-  const layout = {labelCol: { span: 5 }, wrapperCol: { span: 19 }};
-  const tailLayout = {wrapperCol: { offset: 5, span: 19 }};
-  const tailLayoutSm = {wrapperCol: { span: 24 }};
 
-  const { register, trigger, errors, setError, handleSubmit, setValue } = useForm();
+  const { register, trigger, errors, setError, handleSubmit, clearErrors , setValue } = useForm();
 
+  // fix clearerrors: should not both be elimitnated (e.g. blank input)
   const handleUsernameChange = (e) => {
+    clearErrors();
     setValue("username", e.target.value);
     trigger('username');
   }
 
   const handlePasswordChange = (e) => {
+    clearErrors();
     setValue("password", e.target.value);
     trigger('password');
   }
@@ -77,7 +74,7 @@ function Login() {
   // add regex validation later
   useEffect(() => {
     register("username", {required: true}); 
-    register("password", {required: true}); 
+    register("password", {required: true});
   }, [register])
 
   function post_login(data) {
@@ -100,49 +97,57 @@ function Login() {
     // .catch((json) => setNoNameError(JSON.stringify(json)));
   }
 
+  let usernameProps = {
+    ...(errors.username && {
+      validateStatus: 'warning',
+      hasFeedback: true,
+      help: 'The username should not be empty',
+    }),
+    ...(errors.inv_credentials && {
+      validateStatus: 'error',
+      hasFeedback: true,
+    })
+  }
+
+  let passwordProps = {
+    ...(errors.password && {
+      validateStatus: 'warning',
+      hasFeedback: true,
+      help: 'The password should not be empty',
+    }),
+    ...(errors.inv_credentials && {
+      validateStatus: 'error',
+      hasFeedback: true,
+      help: 'Invalid credentials provided',
+    })
+  }
+
   return (
-    <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "500px", padding: "30px" }}>
-      <Form {...layout} name="basic" initialValues={{ remember: true }} onFinish={handleSubmit(onSubmit)} requiredMark={false}>
-        <Form.Item label="Username">
-          {/* make this thing look better pls SERIOUSLY */}
-          <Input name="username" onChange={handleUsernameChange} />
-          {/* probably create differnt cases for front and back end validation */}
-          {errors.username && <p>a {errors.username.message} a</p>}
+    <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "380px", padding: "30px" }}>
+      <Form name="normal_login" className="login-form" initialValues={{ remember: true }}
+        onFinish={handleSubmit(onSubmit)} requiredMark={false}>
+        <Form.Item name="Username" {...usernameProps}>
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"
+            name="username" onChange={handleUsernameChange}/>
         </Form.Item>
-        <Form.Item label="Password">
-          <Input.Password  name="password" onChange={handlePasswordChange} />
-          {errors.password && <p>a {errors.password.message} a</p>}
+        <Form.Item name="Password" {...passwordProps}>
+          <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"
+            name="password" onChange={handlePasswordChange} />
         </Form.Item>
-        { !shrinkTailLayout &&
-          <>
-            <Row>
-              <Col span={5}></Col>
-              <Col span={19}>
-                <Text type="secondary">
-                  Not registered? <Link to="/accounts/signup" key="signup">Sign up</Link>
-                </Text>
-              </Col>
-            </Row>
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-            <Form.Item {...tailLayout}><Button type="primary" htmlType="submit">Submit</Button></Form.Item>
-          </>
-        }
-        { shrinkTailLayout &&
-          <>
-          <Text type="secondary">
-            Not registered? <Link to="/accounts/signup" key="signup">Sign up</Link>
-          </Text>
-            <Form.Item {...tailLayoutSm} name="remember" valuePropName="checked">
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-            <Form.Item {...tailLayoutSm}><Button type="primary" htmlType="submit">Submit</Button></Form.Item>
-          </>
-        }
+        <Form.Item>
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+          <Link className="login-form-forgot" to="/accounts/forgot-password" key="signup">Forgot password</Link>
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+            Log in
+          </Button>
+          Or <Link to="/accounts/signup" key="signup">register now!</Link>
+        </Form.Item>
       </Form> 
     </div>
-    
   )
 }
 

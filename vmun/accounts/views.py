@@ -33,8 +33,7 @@ def ajax_login(request):
         # be more specific on exception
         except:
             # also work on the error messages
-            return JsonResponse({'authenticated': False, 'errors': {'username': 'Invalid credentials provided'}})
-
+            return JsonResponse({'authenticated': False, 'errors': {'inv_credentials': 'Invalid credentials provided'}})
 
 
 def ajax_logout(request):
