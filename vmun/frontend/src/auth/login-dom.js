@@ -73,8 +73,18 @@ function Login() {
 
   // add regex validation later
   useEffect(() => {
-    register("username", {required: true}); 
-    register("password", {required: true});
+    register("username", {
+      required: "The username is required.",
+      pattern: {
+        value: /^[A-Za-z0-9@.+-_]+$/i,
+        message: "Letters, digits and @/./+/-/_ only.",
+      },
+      maxLength: {
+        value: 150,
+        message: "There can only be 150 characters or fewer."
+      },
+    }); 
+    register("password", {required: "The password is required."});
   }, [register])
 
   function post_login(data) {
@@ -101,19 +111,16 @@ function Login() {
     ...(errors.username && {
       validateStatus: 'warning',
       hasFeedback: true,
-      help: 'The username should not be empty',
+      help: errors.username.message,
     }),
-    ...(errors.inv_credentials && {
-      validateStatus: 'error',
-      hasFeedback: true,
-    })
+    ...(errors.inv_credentials && {validateStatus: 'error', hasFeedback: true,})
   }
 
   let passwordProps = {
     ...(errors.password && {
       validateStatus: 'warning',
       hasFeedback: true,
-      help: 'The password should not be empty',
+      help: errors.password.message,
     }),
     ...(errors.inv_credentials && {
       validateStatus: 'error',
@@ -131,7 +138,7 @@ function Login() {
             name="username" onChange={handleUsernameChange}/>
         </Form.Item>
         <Form.Item name="Password" {...passwordProps}>
-          <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"
+          <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"
             name="password" onChange={handlePasswordChange} />
         </Form.Item>
         <Form.Item>
