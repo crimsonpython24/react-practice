@@ -31,7 +31,7 @@ function getCookie(name) {
 function fetchData(url, met, data=null) {
   return fetch(url, {
     method: met,
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
       "Accept": "application/json",
       'X-Requested-With': 'XMLHttpRequest',
@@ -88,6 +88,7 @@ function Login() {
   }, [register])
 
   function post_login(data) {
+    console.log("CSRF:", getCookie('csrftoken'))
     fetchData("http://127.0.0.1:8000/accounts/ajaxlogin", 'POST', {'username': data.username, 'password': data.password})
     .then((userdata) => {
       if (userdata.errors) {

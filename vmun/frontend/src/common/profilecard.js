@@ -32,7 +32,7 @@ function getCookie(name) {
 function fetchData(url, met, data=null) {
   return fetch(url, {
     method: met,
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
       "Accept": "application/json",
       'X-Requested-With': 'XMLHttpRequest',
