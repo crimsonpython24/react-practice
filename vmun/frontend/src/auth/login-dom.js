@@ -63,11 +63,13 @@ function Login() {
     clearErrors();
     setValue("username", e.target.value);
     trigger('username');
+    trigger('password');
   }
 
   const handlePasswordChange = (e) => {
     clearErrors();
     setValue("password", e.target.value);
+    trigger('username');
     trigger('password');
   }
 

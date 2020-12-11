@@ -4,12 +4,20 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
-
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 
 from accounts.models import User
 from mun.models import Conference
 from .serializers import UserSerializer
 from mun.serializers import ConferenceSerializer
+
+
+@ensure_csrf_cookie
+def ajax_get_csrf(request):
+    csrf_token = get_token(request)
+    print(csrf_token)
+    return JsonResponse({'csrftoken': csrf_token})
 
 
 def ajax_login(request):
@@ -71,8 +79,10 @@ def test_state(request):
     return JsonResponse({'user': {'username': username, 'id': int(user), "authenticated": True}, 'conferences': confz})
 
 
+@ensure_csrf_cookie
 def init_state(request):
     user = None
+    csrf_token = get_token(request)
     if request.user and request.user.is_anonymous == False:
         userid = request.user.id
 
@@ -85,6 +95,6 @@ def init_state(request):
     
     if user:
         confz = [ConferenceSerializer(instance=conf).data for conf in Conference.objects.filter(creator=userid)]
-        return JsonResponse({'user': user, 'conferences': confz})
+        return JsonResponse({'user': user, 'conferences': confz, 'csrftoken': csrf_token})
     else:
-        return JsonResponse({'user': {'username': 'guest'}, 'conferences': []})
+        return JsonResponse({'user': {'username': 'guest'}, 'conferences': [], 'csrftoken': csrf_token})

@@ -12,7 +12,7 @@ urlpatterns = [
     path('ajaxsignup', views.ajax_logout, name='ajaxsignup'),
     path('teststate', views.test_state, name='teststate'),
     path('initstate', views.init_state, name='initstate'),
-
+    
     path('login', f_views.index, name='index'),
     path('signup', f_views.index, name='index'),
 ]
