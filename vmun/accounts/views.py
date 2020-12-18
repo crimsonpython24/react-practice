@@ -68,15 +68,15 @@ def ajax_signup(request):
 
 
 def test_state(request):
-    user = os.environ.get('TESTUSER_ID')  # undefined
-    if user is None:
+    csrf_token = get_token(request)
+    user_id = os.environ.get('TESTUSER_ID')  # undefined
+    if user_id is None:
         return JsonResponse({'user': {'username': 'guest_8000', 'id': -1, "authenticated": False}, 'conferences': []})
-    
-    username = getattr(User.objects.get(id=user), 'slug')
-    confs = Conference.objects.filter(creator=user)
 
-    confz = [ConferenceSerializer(instance=conf).data for conf in confs]
-    return JsonResponse({'user': {'username': username, 'id': int(user), "authenticated": True}, 'conferences': confz})
+    confz = [ConferenceSerializer(instance=conf).data for conf in Conference.objects.filter(creator=user_id)]
+    user = UserSerializer(instance=User.objects.get(id=user_id)).data
+    user['authenticated'] = True
+    return JsonResponse({'user': user, 'conferences': confz, 'csrftoken': csrf_token})
 
 
 @ensure_csrf_cookie
