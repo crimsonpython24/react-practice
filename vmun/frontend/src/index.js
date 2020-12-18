@@ -20,7 +20,6 @@ fetch(`http://127.0.0.1:8000/accounts/${url}`)
         user: data.user,
         conferences: data.conferences,
       };
-      console.log(data);
       const App = () => {
         return (
           <VmunContextProvider initState={initialState}>

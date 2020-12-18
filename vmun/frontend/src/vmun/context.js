@@ -13,7 +13,7 @@ const initialState = {
 
 
 const vmunReducer = (state, action) => {
-  console.log('context.js', action);
+  console.log('context.js', state);
   switch (action.type) {
     case 'LOGGED_IN': {
       let {user, ...etc} = state;
@@ -37,6 +37,20 @@ const vmunReducer = (state, action) => {
           email: "",
         }
       }
+    }
+    case 'UPDATED_PROFILE': {
+      let {user, ...etc} = state;
+      let {type, ...attrs} = action;
+      console.log('this is some text', action);
+      let ret = {
+        ...etc,
+        user: {
+          ...user,
+          ...attrs,
+        }
+      }
+      console.log('stateuser', ret)
+      return ret;
     }
     default:
       return state;

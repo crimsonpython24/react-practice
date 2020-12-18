@@ -93,7 +93,7 @@ function ProfileCard() {
         </div>
       }
       actions={[
-        <Tooltip placement="bottom" title="Setting"><Link to=""><SettingOutlined key="settings" /></Link></Tooltip>,
+        <Tooltip placement="bottom" title="Setting"><Link to="/accounts/profile"><SettingOutlined key="settings" /></Link></Tooltip>,
         <Tooltip placement="bottom" title="Development"><Link to="/development"><ExperimentOutlined key="experiment" /></Link></Tooltip>,
         <Tooltip placement="bottom" title="Log out"><LogoutOutlined key="logout" onClick={post_logout} /></Tooltip>,
       ]}

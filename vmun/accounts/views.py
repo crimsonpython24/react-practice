@@ -98,3 +98,26 @@ def init_state(request):
         return JsonResponse({'user': user, 'conferences': confz, 'csrftoken': csrf_token})
     else:
         return JsonResponse({'user': {'username': 'guest'}, 'conferences': [], 'csrftoken': csrf_token})
+
+
+# lambda this
+def get_user_id(request):
+    if request.user and request.user.is_anonymous == False:
+        return request.user.id
+    return os.environ.get('TESTUSER_ID') or None  # take care of edge case later
+
+
+# only allow post methods
+def ajax_profile(request):
+    if request.is_ajax():
+        # exceptions later
+        post_data = json.load(request)
+        email = post_data['email']
+        uid = get_user_id(request)
+
+        # update fields using **kwargs
+        User.objects.filter(pk=uid).update(email=email)
+
+        return JsonResponse({'email': email})
+
+    return JsonResponse({'email': ''})
