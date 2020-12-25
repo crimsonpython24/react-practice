@@ -16,20 +16,16 @@ function Home() {
   }
   return (
     <>
-      <Switch>
-        <Route exact path="/">
-          <h1><Link to='/'>Home</Link></h1>
-          <Link to="/conference/">Conference Dashboard</Link>
-          <ul>
-            {state.conferences.map((conf) => (
-              <li key={conf.id}>
-                {conf.title}
-                <Link to={`/conference/${conf.slug}/`}>Link</Link>
-              </li>
-            ))}
-          </ul>
-        </Route>
-      </Switch>
+      <h1><Link to='/'>Home</Link></h1>
+      <Link to="/conference">Conference Dashboard</Link>
+      <ul>
+        {state.conferences.map((conf) => (
+          <li key={conf.id}>
+            {conf.title}
+            <Link to={`/conference/slug/${conf.slug}`}>Link</Link>
+          </li>
+        ))}
+      </ul>
     </>
   )
 }

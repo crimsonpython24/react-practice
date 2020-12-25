@@ -43,7 +43,7 @@ function ConferenceHome() {
       <ol>
         {confs.map((conf, index) => (
           <li key={index}>({conf.id}) {conf.title} at {conf.date_start}
-            <Link to={`/conference/slug/${conf.slug}`}>Link</Link>
+            <Link to={`/conference/${conf.slug}`}>Link</Link>
           </li>
         ))}
       </ol>

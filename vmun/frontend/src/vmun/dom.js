@@ -11,6 +11,8 @@ import Signup from "../../src/auth/signup-dom";
 import ForgotPassword from "../../src/auth/forgot-pw-dom";
 import Profile from "../../src/auth/profile-dom";
 import Conference from "../main/conference/conference.js";
+import AddConference from "../main/conference/addconference.js";
+import MyConference from "../main/conference/myconference.js";
 import ConferenceHome from "../main/conference/conference-home.js";
 import Navbar from "../../src/common/navbar";
 import { VmunContext } from './context';
@@ -25,6 +27,7 @@ const Vmun = () => {
         <Route exact path="/"><Home/></Route>
         <Route path="/welcome/"><Welcome/></Route>
         <Route path="/accounts/login"><Login/></Route>
+        {/* do signup when there are some time, too */}
         <Route path="/accounts/signup"><Signup/></Route>
         <Route path="/accounts/forgot-password"><ForgotPassword/></Route>
         {/* do the forgot password some time> */}
@@ -32,11 +35,10 @@ const Vmun = () => {
         <Route path="/feedback"><Feedback/></Route>
         <Route path="/development"><Development/></Route>
         
-        <Route path="/conference"><ConferenceHome/></Route>
-        <Route path={`/conference/:confId`}>
-          <Conference></Conference>
-        </Route>
-
+        <Route exact path="/conference"><ConferenceHome/></Route>
+        <Route path="/conference/my"><MyConference/></Route>
+        <Route path="/conference/add"><AddConference/></Route>
+        <Route path={`/conference/slug/:confId`}><Conference/></Route>
       </Switch>
     </>
   );

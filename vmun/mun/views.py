@@ -1,4 +1,9 @@
+import json
+import datetime
+
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -7,6 +12,8 @@ from rest_framework import status
 
 from .models import Conference, Committee, Delegate
 from .serializers import ConferenceSerializer, CommitteeSerializer, DelegateSerializer
+
+from accounts.models import User
 
 
 class ListAPIView(generics.ListCreateAPIView):
@@ -22,6 +29,9 @@ class ConferenceListView(ListAPIView):
 
     def get_objects(self):
         return Conference.objects.all()
+
+
+# class MyConferenceListView(ListAPIView)
 
 
 class CommitteeListView(ListAPIView):
@@ -107,3 +117,28 @@ class DelegateAPIView(ListAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+
+
+# lambda this
+def get_user_id(request):
+    if request.user and request.user.is_anonymous == False:
+        return request.user.id
+    return os.environ.get('TESTUSER_ID') or None  # take care of edge case later
+
+
+@ensure_csrf_cookie
+def add_conference(request):
+    if request.is_ajax():
+        # exceptions later
+        post_data = json.load(request)
+        title = post_data['title']
+
+        # update fields using **kwargs
+        user = request.user
+        # fix the date later (from form)
+        Conference.objects.create(title=title, date_start='2020-06-10', date_end='2020-06-10', creator=user)
+
+        # prolly return entire object? depends smh
+        return JsonResponse({'title': title})
+
+    return JsonResponse({'title': ''})
