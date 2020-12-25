@@ -16,25 +16,20 @@ function Home() {
   }
   return (
     <>
-      <Router>
-        <ul>
-          <Switch>
-            <Route exact path="/">
-              <h1><Link to='/'>Home</Link></h1>
-              {state.conferences.map((conf) => (
-                <li key={conf.id}>
-                  {conf.title}
-                  <Link to={`/conference/${conf.slug}/`}>Link</Link>
-                </li>
-              ))}
-            </Route>
-            <Route path={`/conference/:confId/`}>
-              <Conference></Conference>
-            </Route>
-
-          </Switch>
-        </ul>
-      </Router>
+      <Switch>
+        <Route exact path="/">
+          <h1><Link to='/'>Home</Link></h1>
+          <Link to="/conference/">Conference Dashboard</Link>
+          <ul>
+            {state.conferences.map((conf) => (
+              <li key={conf.id}>
+                {conf.title}
+                <Link to={`/conference/${conf.slug}/`}>Link</Link>
+              </li>
+            ))}
+          </ul>
+        </Route>
+      </Switch>
     </>
   )
 }

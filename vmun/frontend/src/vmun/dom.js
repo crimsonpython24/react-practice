@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import Home from "../../src/main/home";
 import Feedback from "../../src/main/feedback";
@@ -11,6 +11,7 @@ import Signup from "../../src/auth/signup-dom";
 import ForgotPassword from "../../src/auth/forgot-pw-dom";
 import Profile from "../../src/auth/profile-dom";
 import Conference from "../main/conference/conference.js";
+import ConferenceHome from "../main/conference/conference-home.js";
 import Navbar from "../../src/common/navbar";
 import { VmunContext } from './context';
 
@@ -19,25 +20,24 @@ const Vmun = () => {
   const [state, dispatch] = useContext(VmunContext);
   return (
     <>
-      <Router>
-        <Navbar/>
-        <Switch>
-          <Route exact path="/"><Home/></Route>
-          <Route path="/welcome"><Welcome/></Route>
-          <Route path="/accounts/login"><Login/></Route>
-          <Route path="/accounts/signup"><Signup/></Route>
-          <Route path="/accounts/forgot-password"><ForgotPassword/></Route>
-          {/* do the forgot password some time> */}
-          <Route path="/accounts/profile"><Profile/></Route>
-          <Route path="/feedback"><Feedback/></Route>
-          <Route path="/development"><Development/></Route>
-          
-          <Route path={`/conference/:confId/`}>
-            <Conference></Conference>
-          </Route>
+      <Navbar/>
+      <Switch>
+        <Route exact path="/"><Home/></Route>
+        <Route path="/welcome/"><Welcome/></Route>
+        <Route path="/accounts/login"><Login/></Route>
+        <Route path="/accounts/signup"><Signup/></Route>
+        <Route path="/accounts/forgot-password"><ForgotPassword/></Route>
+        {/* do the forgot password some time> */}
+        <Route path="/accounts/profile"><Profile/></Route>
+        <Route path="/feedback"><Feedback/></Route>
+        <Route path="/development"><Development/></Route>
+        
+        <Route path="/conference"><ConferenceHome/></Route>
+        <Route path={`/conference/:confId`}>
+          <Conference></Conference>
+        </Route>
 
-        </Switch>
-      </Router>
+      </Switch>
     </>
   );
 };

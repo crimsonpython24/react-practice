@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "antd/dist/antd.css";
+import { BrowserRouter } from "react-router-dom";
 
 import VmunContextProvider from './vmun/context';
 import Vmun from './vmun/dom';
@@ -23,7 +24,9 @@ fetch(`http://127.0.0.1:8000/accounts/${url}`)
       const App = () => {
         return (
           <VmunContextProvider initState={initialState}>
-            <Vmun/>
+            <BrowserRouter>
+              <Vmun/>
+            </BrowserRouter>
           </VmunContextProvider>
         )
       };
