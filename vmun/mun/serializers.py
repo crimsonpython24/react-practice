@@ -5,7 +5,7 @@ from .models import Conference, Committee, Delegate
 class ConferenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conference
-        fields = ['id', 'slug', 'title', 'date_start', 'date_end']
+        fields = ['id', 'slug', 'title', 'date_start', 'date_end', 'creator', 'participants']
 
 
 class CommitteeSerializer(serializers.ModelSerializer):

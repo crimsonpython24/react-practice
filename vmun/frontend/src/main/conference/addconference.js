@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 import { Input, Button, Form } from 'antd';
 import jQuery from "jquery";
 import { useForm } from "react-hook-form";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { VmunContext } from '../../vmun/context.js';
 
@@ -51,6 +51,8 @@ function fetchData(url, met, data) {
 function AddConference() {
   const onSubmit = values => {add_conference(values);}
   const { register, handleSubmit, setError, setValue } = useForm();
+  const [state, dispatch] = useContext(VmunContext);
+  const history = useHistory();
 
   function add_conference(data) {
     // add time fields later (complicated)
@@ -67,10 +69,10 @@ function AddConference() {
           // add form validation LATER 
         })
       } else {
-        // dispatch({
-        //   type: 'UPDATED_PROFILE', ...ret,
-        // });
-        return <Redirect to={'/conferences/my'} />
+        dispatch({
+          type: 'CREATED_CONFERENCE', ...ret,
+        });
+        history.push("/conference/my");
       }
     })
   }

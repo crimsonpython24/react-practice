@@ -136,9 +136,11 @@ def add_conference(request):
         # update fields using **kwargs
         user = request.user
         # fix the date later (from form)
-        Conference.objects.create(title=title, date_start='2020-06-10', date_end='2020-06-10', creator=user)
+        conf = Conference.objects.create(title=title, date_start='2020-06-10', date_end='2020-06-10', creator=user)
+        conf.participants.add(user)
 
         # prolly return entire object? depends smh
-        return JsonResponse({'title': title})
+        conf_json = ConferenceSerializer(instance=conf).data
+        return JsonResponse({'conference': conf_json})
 
-    return JsonResponse({'title': ''})
+    return JsonResponse({'conference': None})

@@ -9,7 +9,8 @@ class Conference(models.Model):
     title = models.CharField(max_length=200, blank=False, unique=True)
     date_start = models.DateField(blank=False, auto_now_add=False)
     date_end = models.DateField(blank=False, auto_now_add=False)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creator')
+    participants = models.ManyToManyField(User, related_name='participants')
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
