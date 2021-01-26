@@ -67,15 +67,21 @@ def ajax_signup(request):
     return JsonResponse({'signed_up': False})
 
 
+# Test view: SET TESTUSER_ID=1
 def test_state(request):
     csrf_token = get_token(request)
-    user_id = os.environ.get('TESTUSER_ID')  # undefined
+    user_id = os.environ.get('TESTUSER_ID')
+
     if user_id is None:
         return JsonResponse({'user': {'username': 'guest_8000', 'id': -1, "authenticated": False}, 'conferences': []})
 
     confz = [ConferenceSerializer(instance=conf).data for conf in Conference.objects.filter(creator=user_id)]
     user = UserSerializer(instance=User.objects.get(id=user_id)).data
     user['authenticated'] = True
+    for entry in ['password']:
+        user.pop(entry, None) 
+        print(entry)
+
     return JsonResponse({'user': user, 'conferences': confz, 'csrftoken': csrf_token})
 
 
@@ -89,7 +95,7 @@ def init_state(request):
         if userid is not None:
             user = UserSerializer(instance=User.objects.get(id=userid)).data
             user['authenticated'] = True
-            remove = ('password')  # rest are all necessary?
+            remove = ['password']  # rest are all necessary?
             for entry in remove:
                 user.pop(entry, None)
     
@@ -100,7 +106,6 @@ def init_state(request):
         return JsonResponse({'user': {'username': 'guest'}, 'conferences': [], 'csrftoken': csrf_token})
 
 
-# lambda this
 def get_user_id(request):
     if request.user and request.user.is_anonymous == False:
         return request.user.id
@@ -109,15 +114,16 @@ def get_user_id(request):
 
 # only allow post methods
 def ajax_profile(request):
-    if request.is_ajax():
-        # exceptions later
-        post_data = json.load(request)
-        email = post_data['email']
-        uid = get_user_id(request)
+    if request.method == 'POST':
+        if request.is_ajax():
+            # exceptions later
+            post_data = json.load(request)
+            email = post_data['email']
+            uid = get_user_id(request)
 
-        # update fields using **kwargs
-        User.objects.filter(pk=uid).update(email=email)
+            # update fields using **kwargs
+            User.objects.filter(pk=uid).update(email=email)
 
-        return JsonResponse({'email': email})
+            return JsonResponse({'email': email})
 
     return JsonResponse({'email': ''})
